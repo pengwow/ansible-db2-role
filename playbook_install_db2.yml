@@ -1,0 +1,53 @@
+---
+#- name: prepare installation
+#  hosts: ['db2']
+#  vars:
+#    yum_baseurl: "http://X.X.X.X/base_url"
+#    backup_repo: True
+#    restory_repo: False
+#  roles:
+#    - role: bocloud_common
+- hosts: ['db2']
+  vars:
+    db2_version: "v11.1"
+    db2_creates: server
+    db2_unarchive: server_t
+    db2_install_packages: "v11.1_linuxx64_server_t.tar.gz"
+
+    # yum_repo: http://public-yum.oracle.com/public-yum-ol6.repo
+    #Check download_db2.yml  to find how you can use this role to download a DB2 from a remote repo
+    db2_tmp_dest: "/tmp"
+    db2_tarball_file: v11.1_linuxx64_server_t.tar.gz
+    db2_fenced_group_name: db2fadm1
+    db2_fenced_username: db2fenc1
+    db2_install_type: TYPICAL
+    db2_make_cache: no
+    db2_tmp_dest: /tmp
+    db2_prod: DB2_SERVER_EDITION
+    db2_lic_agreement: ACCEPT
+    db2_create_instances: true
+    db2_file: /opt/ibm/db2/V11.1
+    db2_group_name: db2iadm1
+    db2_instance: DB2INST
+    db2_ansible_os_family: CentOS
+    db2_name: db2inst1
+    db2_binary:
+      location: "v11.1_linuxx64_server_t.tar.gz"
+   #"v11.1_linuxx64_server_t.tar.gz"
+      dest: "/tmp"
+    # Response file keywords: https://www-01.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.qb.server.doc/doc/r0007505.html
+    # List of instances to be created
+    # NOTE: root installation is required
+    
+    #Those five params are mandatory to create a DB2 instance
+    db2_instances:
+      - instance: "DB2INST" # "DB2INST"
+        name: "db2inst1" # "db2inst1"
+        group_name: "db2iadm1" # "db2iadm1"
+        fenced_username: "db2fenc1" # "db2fenc1"
+        fenced_group_name: "db2fadm1" #"db2fadm1"
+
+
+  roles:
+    - role: ansible-db2
+

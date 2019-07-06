@@ -1,0 +1,2 @@
+[db2]
+10.20.10.20  ansible_user=root ansible_password=123456
